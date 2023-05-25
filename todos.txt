@@ -1,0 +1,9 @@
+todos:
+1) Context analysis [S]
+2) IsNull/Outlier [F]
+3) Equal time sampling [F]
+4) Feature selection (non KNN) [A]
+//
+5) Report [ ]
+6) Codice GitHub [ ]
+7) 
