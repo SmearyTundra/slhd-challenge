@@ -1,6 +1,7 @@
 import scipy.signal
 import numpy as np
 
+
 def compute_time(signal, fs):
     """Creates the signal correspondent time array."""
     return np.arange(0, len(signal))/fs
@@ -84,6 +85,7 @@ def create_symmetric_matrix(acf, order=11):
 
     return smatrix
 
+
 def calc_ecdf(signal):
     """Computes the ECDF of the signal."""
     return np.sort(signal), np.arange(1, len(signal)+1)/len(signal)
@@ -94,17 +96,18 @@ def autocorr(signal):
     signal = np.array(signal)
     return float(np.correlate(signal, signal))
 
-def calc_centroid(signal, fs):
-    """Computes the centroid along the time axis."""
-    time = compute_time(signal, fs)
-    energy = np.array(signal) ** 2
-    t_energy = np.dot(np.array(time), np.array(energy))
-    energy_sum = np.sum(energy)
-    if energy_sum == 0 or t_energy == 0:
-        centroid = 0
-    else:
-        centroid = t_energy / energy_sum
-    return centroid
+# skip
+# def calc_centroid(signal, fs):
+#     """Computes the centroid along the time axis."""
+#     time = compute_time(signal, fs)
+#     energy = np.array(signal) ** 2
+#     t_energy = np.dot(np.array(time), np.array(energy))
+#     energy_sum = np.sum(energy)
+#     if energy_sum == 0 or t_energy == 0:
+#         centroid = 0
+#     else:
+#         centroid = t_energy / energy_sum
+#     return centroid
 
 def negative_turning(signal):
     """Computes number of negative turning points of the signal."""
@@ -140,7 +143,7 @@ def median_diff(signal):
     """Computes median of differences of the signal."""
     return np.median(np.diff(signal))
 
-def distance(signal):
+def distance(signal): # è la lunghezza bro
     """Calculates the total distance traveled by the signal
     using the hipotenusa between 2 datapoints."""
     diff_sig = np.diff(signal).astype(float)
@@ -153,6 +156,7 @@ def sum_abs_diff(signal):
 def zero_cross(signal):
     """Computes Zero-crossing rate of the signal."""
     return len(np.where(np.diff(np.sign(signal)))[0])
+
 
 def total_energy(signal, fs):
     """Computes the total energy of the signal."""
@@ -169,55 +173,45 @@ def auc(signal, fs):
     t = compute_time(signal, fs)
     return np.sum(0.5 * np.diff(t) * np.abs(np.array(signal[:-1]) + np.array(signal[1:])))
 
-def abs_energy(signal):
-    """Computes the absolute energy of the signal."""
-    return np.sum(np.abs(signal) ** 2)
-
 def pk_pk_distance(signal):
     """Computes the peak to peak distance."""
     return np.abs(np.max(signal) - np.min(signal))
 
-def entropy(signal, prob='standard'):
-    """Computes the entropy of the signal using the Shannon Entropy."""
+# def entropy(signal, prob='standard'):
+#     """Computes the entropy of the signal using the Shannon Entropy."""
 
-    if prob == 'standard':
-        value, counts = np.unique(signal, return_counts=True)
-        p = counts / counts.sum()
-    elif prob == 'kde':
-        p = kde(signal)
-    elif prob == 'gauss':
-        p = gaussian(signal)
+#     if prob == 'standard':
+#         value, counts = np.unique(signal, return_counts=True)
+#         p = counts / counts.sum()
+#     elif prob == 'kde':
+#         p = kde(signal)
+#     elif prob == 'gauss':
+#         p = gaussian(signal)
 
-    if np.sum(p) == 0:
-        return 0.0
+#     if np.sum(p) == 0:
+#         return 0.0
 
-    # Handling zero probability values
-    p = p[np.where(p != 0)]
+#     # Handling zero probability values
+#     p = p[np.where(p != 0)]
 
-    # If probability all in one value, there is no entropy
-    if np.log2(len(signal)) == 1:
-        return 0.0
-    elif np.sum(p * np.log2(p)) / np.log2(len(signal)) == 0:
-        return 0.0
-    else:
-        return - np.sum(p * np.log2(p)) / np.log2(len(signal))
+#     # If probability all in one value, there is no entropy
+#     if np.log2(len(signal)) == 1:
+#         return 0.0
+#     elif np.sum(p * np.log2(p)) / np.log2(len(signal)) == 0:
+#         return 0.0
+#     else:
+#         return - np.sum(p * np.log2(p)) / np.log2(len(signal))
 
-def neighbourhood_peaks(signal, n=10):
-    """Computes the number of peaks from a defined neighbourhood of the signal."""
-    signal = np.array(signal)
-    subsequence = signal[n:-n]
-    # initial iteration
-    peaks = ((subsequence > np.roll(signal, 1)[n:-n]) & (subsequence > np.roll(signal, -1)[n:-n]))
-    for i in range(2, n + 1):
-        peaks &= (subsequence > np.roll(signal, i)[n:-n])
-        peaks &= (subsequence > np.roll(signal, -i)[n:-n])
-    return np.sum(peaks)
-
-def hist(signal, nbins=10, r=1):
-    """Computes histogram of the signal."""
-    histsig, bin_edges = np.histogram(signal, bins=nbins, range=[-r, r])
-
-    return tuple(histsig)
+# def neighbourhood_peaks(signal, n=10):
+#     """Computes the number of peaks from a defined neighbourhood of the signal."""
+#     signal = np.array(signal)
+#     subsequence = signal[n:-n]
+#     # initial iteration
+#     peaks = ((subsequence > np.roll(signal, 1)[n:-n]) & (subsequence > np.roll(signal, -1)[n:-n]))
+#     for i in range(2, n + 1):
+#         peaks &= (subsequence > np.roll(signal, i)[n:-n])
+#         peaks &= (subsequence > np.roll(signal, -i)[n:-n])
+#     return np.sum(peaks)
 
 def interq_range(signal):
     """Computes interquartile range of the signal."""
@@ -227,9 +221,9 @@ def kurtosis(signal):
     """Computes kurtosis of the signal."""
     return scipy.stats.kurtosis(signal)
  
-def skewness(signal):
-    """Computes skewness of the signal."""
-    return scipy.stats.skew(signal)
+# def skewness(signal):
+#     """Computes skewness of the signal."""
+#     return scipy.stats.skew(signal)
  
 def calc_max(signal):
     """Computes the maximum value of the signal."""
@@ -296,19 +290,18 @@ def ecdf_percentile(signal, percentile=[0.2, 0.8]):
             return x[y <= percentile].max()
 
  
-def spectral_distance(signal, fs):
-    """Computes the signal spectral distance."""
-    f, fmag = calc_fft(signal, fs)
+# def spectral_distance(signal, fs):
+#     """Computes the signal spectral distance."""
+#     f, fmag = calc_fft(signal, fs)
 
-    cum_fmag = np.cumsum(fmag)
+#     cum_fmag = np.cumsum(fmag)
 
-    # Computing the linear regression
-    points_y = np.linspace(0, cum_fmag[-1], len(cum_fmag))
+#     # Computing the linear regression
+#     points_y = np.linspace(0, cum_fmag[-1], len(cum_fmag))
 
-    return np.sum(points_y - cum_fmag)
+#     return np.sum(points_y - cum_fmag)
 
 
- 
 def fundamental_frequency(signal, fs):
     """Computes fundamental frequency of the signal.
     The fundamental frequency integer multiple best explain
@@ -331,90 +324,90 @@ def fundamental_frequency(signal, fs):
 
     return f0
  
-def max_frequency(signal, fs):
-    """Computes maximum frequency of the signal."""
-    f, fmag = calc_fft(signal, fs)
-    cum_fmag = np.cumsum(fmag)
+# def max_frequency(signal, fs):
+#     """Computes maximum frequency of the signal."""
+#     f, fmag = calc_fft(signal, fs)
+#     cum_fmag = np.cumsum(fmag)
 
-    try:
-        ind_mag = np.where(cum_fmag > cum_fmag[-1] * 0.95)[0][0]
-    except IndexError:
-        ind_mag = np.argmax(cum_fmag)
+#     try:
+#         ind_mag = np.where(cum_fmag > cum_fmag[-1] * 0.95)[0][0]
+#     except IndexError:
+#         ind_mag = np.argmax(cum_fmag)
 
-    return f[ind_mag]
+#     return f[ind_mag]
  
-def median_frequency(signal, fs):
-    """Computes median frequency of the signal."""
-    f, fmag = calc_fft(signal, fs)
-    cum_fmag = np.cumsum(fmag)
-    try:
-        ind_mag = np.where(cum_fmag > cum_fmag[-1] * 0.50)[0][0]
-    except IndexError:
-        ind_mag = np.argmax(cum_fmag)
-    f_median = f[ind_mag]
+# def median_frequency(signal, fs):
+#     """Computes median frequency of the signal."""
+#     f, fmag = calc_fft(signal, fs)
+#     cum_fmag = np.cumsum(fmag)
+#     try:
+#         ind_mag = np.where(cum_fmag > cum_fmag[-1] * 0.50)[0][0]
+#     except IndexError:
+#         ind_mag = np.argmax(cum_fmag)
+#     f_median = f[ind_mag]
 
-    return f_median
+#     return f_median
  
-def spectral_decrease(signal, fs):
-    """Represents the amount of decreasing of the spectra amplitude."""
-    f, fmag = calc_fft(signal, fs)
+# def spectral_decrease(signal, fs):
+#     """Represents the amount of decreasing of the spectra amplitude."""
+#     f, fmag = calc_fft(signal, fs)
 
-    fmag_band = fmag[1:]
-    len_fmag_band = np.arange(2, len(fmag) + 1)
+#     fmag_band = fmag[1:]
+#     len_fmag_band = np.arange(2, len(fmag) + 1)
 
-    # Sum of numerator
-    soma_num = np.sum((fmag_band - fmag[0]) / (len_fmag_band - 1), axis=0)
+#     # Sum of numerator
+#     soma_num = np.sum((fmag_band - fmag[0]) / (len_fmag_band - 1), axis=0)
 
-    if not np.sum(fmag_band):
-        return 0
-    else:
-        # Sum of denominator
-        soma_den = 1 / np.sum(fmag_band)
+#     if not np.sum(fmag_band):
+#         return 0
+#     else:
+#         # Sum of denominator
+#         soma_den = 1 / np.sum(fmag_band)
 
-        # Spectral decrease computing
-        return soma_den * soma_num
+#         # Spectral decrease computing
+#         return soma_den * soma_num
 
  
-def spectral_variation(signal, fs):
-    """Computes the amount of variation of the spectrum along time.
+# def spectral_variation(signal, fs):
+#     """Computes the amount of variation of the spectrum along time.
 
-    Spectral variation is computed from the normalized cross-correlation between two consecutive amplitude spectra.
+#     Spectral variation is computed from the normalized cross-correlation between two consecutive amplitude spectra.
 
-    Description and formula in Article:
-    The Timbre Toolbox: Extracting audio descriptors from musicalsignals
-    Authors Peeters G., Giordano B., Misdariis P., McAdams S.
-    """
-    f, fmag = calc_fft(signal, fs)
+#     Description and formula in Article:
+#     The Timbre Toolbox: Extracting audio descriptors from musicalsignals
+#     Authors Peeters G., Giordano B., Misdariis P., McAdams S.
+#     """
+#     f, fmag = calc_fft(signal, fs)
 
-    sum1 = np.sum(np.array(fmag)[:-1] * np.array(fmag)[1:])
-    sum2 = np.sum(np.array(fmag)[1:] ** 2)
-    sum3 = np.sum(np.array(fmag)[:-1] ** 2)
+#     sum1 = np.sum(np.array(fmag)[:-1] * np.array(fmag)[1:])
+#     sum2 = np.sum(np.array(fmag)[1:] ** 2)
+#     sum3 = np.sum(np.array(fmag)[:-1] ** 2)
 
-    if not sum2 or not sum3:
-        variation = 1
-    else:
-        variation = 1 - (sum1 / ((sum2 ** 0.5) * (sum3 ** 0.5)))
+#     if not sum2 or not sum3:
+#         variation = 1
+#     else:
+#         variation = 1 - (sum1 / ((sum2 ** 0.5) * (sum3 ** 0.5)))
 
-    return variation
+#     return variation
  
-def human_range_energy(signal, fs):
-    """Computes the human range energy ratio.
-    The human range energy ratio is given by the ratio between the energy
-    in frequency 0.6-2.5Hz and the whole energy band.
-    """
-    f, fmag = calc_fft(signal, fs)
+# def human_range_energy(signal, fs):
+#     """Computes the human range energy ratio.
+#     The human range energy ratio is given by the ratio between the energy
+#     in frequency 0.6-2.5Hz and the whole energy band.
+#     """
+#     f, fmag = calc_fft(signal, fs)
 
-    allenergy = np.sum(fmag ** 2)
+#     allenergy = np.sum(fmag ** 2)
 
-    if allenergy == 0:
-        # For handling the occurrence of Nan values
-        return 0.0
+#     if allenergy == 0:
+#         # For handling the occurrence of Nan values
+#         return 0.0
 
-    hr_energy = np.sum(fmag[np.argmin(np.abs(0.6 - f)):np.argmin(np.abs(2.5 - f))] ** 2)
+#     hr_energy = np.sum(fmag[np.argmin(np.abs(0.6 - f)):np.argmin(np.abs(2.5 - f))] ** 2)
 
-    ratio = hr_energy / allenergy
+#     ratio = hr_energy / allenergy
 
-    return ratio
+#    return ratio
  
 def fft_mean_coeff(signal, fs, nfreq=256):
     """Computes the mean value of each spectrogram frequency.
@@ -428,133 +421,133 @@ def fft_mean_coeff(signal, fs, nfreq=256):
 
     return tuple(fmag_mean)
  
-def wavelet_abs_mean(signal, function=scipy.signal.ricker, widths=np.arange(1, 10)):
-    """Computes CWT absolute mean value of each wavelet scale."""
-    return tuple(np.abs(np.mean(wavelet(signal, function, widths), axis=1)))
+# def wavelet_abs_mean(signal, function=scipy.signal.ricker, widths=np.arange(1, 10)):
+#     """Computes CWT absolute mean value of each wavelet scale."""
+#     return tuple(np.abs(np.mean(wavelet(signal, function, widths), axis=1)))
 
-def lpc(signal, n_coeff=12):
-    """Computes the linear prediction coefficients.
+# def lpc(signal, n_coeff=12):
+#     """Computes the linear prediction coefficients.
 
-    Implementation details and description in:
-    https://ccrma.stanford.edu/~orchi/Documents/speaker_recognition_report.pdf
-    """
+#     Implementation details and description in:
+#     https://ccrma.stanford.edu/~orchi/Documents/speaker_recognition_report.pdf
+#     """
 
-    if signal.ndim > 1:
-        raise ValueError("Only 1 dimensional arrays are valid")
-    if n_coeff > signal.size:
-        raise ValueError("Input signal must have a length >= n_coeff")
+#     if signal.ndim > 1:
+#         raise ValueError("Only 1 dimensional arrays are valid")
+#     if n_coeff > signal.size:
+#         raise ValueError("Input signal must have a length >= n_coeff")
 
-    # Calculate the order based on the number of coefficients
-    order = n_coeff - 1
+#     # Calculate the order based on the number of coefficients
+#     order = n_coeff - 1
 
-    # Calculate LPC with Yule-Walker
-    acf = np.correlate(signal, signal, 'full')
+#     # Calculate LPC with Yule-Walker
+#     acf = np.correlate(signal, signal, 'full')
 
-    r = np.zeros(order+1, 'float32')
-    # Assuring that works for all type of input lengths
-    nx = np.min([order+1, len(signal)])
-    r[:nx] = acf[len(signal)-1:len(signal)+order]
+#     r = np.zeros(order+1, 'float32')
+#     # Assuring that works for all type of input lengths
+#     nx = np.min([order+1, len(signal)])
+#     r[:nx] = acf[len(signal)-1:len(signal)+order]
 
-    smatrix = create_symmetric_matrix(r[:-1], order)
+#     smatrix = create_symmetric_matrix(r[:-1], order)
 
-    if np.sum(smatrix) == 0:
-        return tuple(np.zeros(order+1))
+#     if np.sum(smatrix) == 0:
+#         return tuple(np.zeros(order+1))
 
-    lpc_coeffs = np.dot(np.linalg.inv(smatrix), -r[1:])
+#     lpc_coeffs = np.dot(np.linalg.inv(smatrix), -r[1:])
 
-    return tuple(np.concatenate(([1.], lpc_coeffs)))
+#     return tuple(np.concatenate(([1.], lpc_coeffs)))
 
-def lpcc(signal, n_coeff=12):
-    """Computes the linear prediction cepstral coefficients.
+# def lpcc(signal, n_coeff=12):
+#     """Computes the linear prediction cepstral coefficients.
 
-    Implementation details and description in:
-    http://www.practicalcryptography.com/miscellaneous/machine-learning/tutorial-cepstrum-and-lpccs/
-    """
-    # 12-20 cepstral coefficients are sufficient for speech recognition
-    lpc_coeffs = lpc(signal, n_coeff)
+#     Implementation details and description in:
+#     http://www.practicalcryptography.com/miscellaneous/machine-learning/tutorial-cepstrum-and-lpccs/
+#     """
+#     # 12-20 cepstral coefficients are sufficient for speech recognition
+#     lpc_coeffs = lpc(signal, n_coeff)
 
-    if np.sum(lpc_coeffs) == 0:
-        return tuple(np.zeros(len(lpc_coeffs)))
+#     if np.sum(lpc_coeffs) == 0:
+#         return tuple(np.zeros(len(lpc_coeffs)))
 
-    # Power spectrum
-    powerspectrum = np.abs(np.fft.fft(lpc_coeffs)) ** 2
-    lpcc_coeff = np.fft.ifft(np.log(powerspectrum))
+#     # Power spectrum
+#     powerspectrum = np.abs(np.fft.fft(lpc_coeffs)) ** 2
+#     lpcc_coeff = np.fft.ifft(np.log(powerspectrum))
 
-    return tuple(np.abs(lpcc_coeff))
+#     return tuple(np.abs(lpcc_coeff))
 
-def filterbank(signal, fs, pre_emphasis=0.97, nfft=512, nfilt=40):
-    """Computes the MEL-spaced filterbank.
+# def filterbank(signal, fs, pre_emphasis=0.97, nfft=512, nfilt=40):
+#     """Computes the MEL-spaced filterbank.
 
-    It provides the information about the power in each frequency band.
+#     It provides the information about the power in each frequency band.
 
-    Implementation details and description on:
-    https://www.kaggle.com/ilyamich/mfcc-implementation-and-tutorial
-    https://haythamfayek.com/2016/04/21/speech-processing-for-machine-learning.html#fnref:1
-    """
+#     Implementation details and description on:
+#     https://www.kaggle.com/ilyamich/mfcc-implementation-and-tutorial
+#     https://haythamfayek.com/2016/04/21/speech-processing-for-machine-learning.html#fnref:1
+#     """
 
-    # Signal is already a window from the original signal, so no frame is needed.
-    # According to the references it is needed the application of a window function such as
-    # hann window. However if the signal windows don't have overlap, we will lose information,
-    # as the application of a hann window will overshadow the windows signal edges.
+#     # Signal is already a window from the original signal, so no frame is needed.
+#     # According to the references it is needed the application of a window function such as
+#     # hann window. However if the signal windows don't have overlap, we will lose information,
+#     # as the application of a hann window will overshadow the windows signal edges.
 
-    # pre-emphasis filter to amplify the high frequencies
+#     # pre-emphasis filter to amplify the high frequencies
 
-    emphasized_signal = np.append(np.array(signal)[0], np.array(signal[1:]) - pre_emphasis * np.array(signal[:-1]))
+#     emphasized_signal = np.append(np.array(signal)[0], np.array(signal[1:]) - pre_emphasis * np.array(signal[:-1]))
 
-    # Fourier transform and Power spectrum
-    mag_frames = np.absolute(np.fft.rfft(emphasized_signal, nfft))  # Magnitude of the FFT
+#     # Fourier transform and Power spectrum
+#     mag_frames = np.absolute(np.fft.rfft(emphasized_signal, nfft))  # Magnitude of the FFT
 
-    pow_frames = ((1.0 / nfft) * (mag_frames ** 2))  # Power Spectrum
+#     pow_frames = ((1.0 / nfft) * (mag_frames ** 2))  # Power Spectrum
 
-    low_freq_mel = 0
-    high_freq_mel = (2595 * np.log10(1 + (fs / 2) / 700))  # Convert Hz to Mel
-    mel_points = np.linspace(low_freq_mel, high_freq_mel, nfilt + 2)  # Equally spaced in Mel scale
-    hz_points = (700 * (10 ** (mel_points / 2595) - 1))  # Convert Mel to Hz
-    filter_bin = np.floor((nfft + 1) * hz_points / fs)
+#     low_freq_mel = 0
+#     high_freq_mel = (2595 * np.log10(1 + (fs / 2) / 700))  # Convert Hz to Mel
+#     mel_points = np.linspace(low_freq_mel, high_freq_mel, nfilt + 2)  # Equally spaced in Mel scale
+#     hz_points = (700 * (10 ** (mel_points / 2595) - 1))  # Convert Mel to Hz
+#     filter_bin = np.floor((nfft + 1) * hz_points / fs)
 
-    fbank = np.zeros((nfilt, int(np.floor(nfft / 2 + 1))))
-    for m in range(1, nfilt + 1):
+#     fbank = np.zeros((nfilt, int(np.floor(nfft / 2 + 1))))
+#     for m in range(1, nfilt + 1):
 
-        f_m_minus = int(filter_bin[m - 1])  # left
-        f_m = int(filter_bin[m])  # center
-        f_m_plus = int(filter_bin[m + 1])  # right
+#         f_m_minus = int(filter_bin[m - 1])  # left
+#         f_m = int(filter_bin[m])  # center
+#         f_m_plus = int(filter_bin[m + 1])  # right
 
-        for k in range(f_m_minus, f_m):
-            fbank[m - 1, k] = (k - filter_bin[m - 1]) / (filter_bin[m] - filter_bin[m - 1])
-        for k in range(f_m, f_m_plus):
-            fbank[m - 1, k] = (filter_bin[m + 1] - k) / (filter_bin[m + 1] - filter_bin[m])
+#         for k in range(f_m_minus, f_m):
+#             fbank[m - 1, k] = (k - filter_bin[m - 1]) / (filter_bin[m] - filter_bin[m - 1])
+#         for k in range(f_m, f_m_plus):
+#             fbank[m - 1, k] = (filter_bin[m + 1] - k) / (filter_bin[m + 1] - filter_bin[m])
 
-    # Area Normalization
-    # If we don't normalize the noise will increase with frequency because of the filter width.
-    enorm = 2.0 / (hz_points[2:nfilt + 2] - hz_points[:nfilt])
-    fbank *= enorm[:, np.newaxis]
+#     # Area Normalization
+#     # If we don't normalize the noise will increase with frequency because of the filter width.
+#     enorm = 2.0 / (hz_points[2:nfilt + 2] - hz_points[:nfilt])
+#     fbank *= enorm[:, np.newaxis]
 
-    filter_banks = np.dot(pow_frames, fbank.T)
-    filter_banks = np.where(filter_banks == 0, np.finfo(float).eps, filter_banks)  # Numerical Stability
-    filter_banks = 20 * np.log10(filter_banks)  # dB
+#     filter_banks = np.dot(pow_frames, fbank.T)
+#     filter_banks = np.where(filter_banks == 0, np.finfo(float).eps, filter_banks)  # Numerical Stability
+#     filter_banks = 20 * np.log10(filter_banks)  # dB
 
-    return filter_banks
+#     return filter_banks
 
-def mfcc(signal, fs, pre_emphasis=0.97, nfft=512, nfilt=40, num_ceps=12, cep_lifter=22):
-    """Computes the MEL cepstral coefficients.
+# def mfcc(signal, fs, pre_emphasis=0.97, nfft=512, nfilt=40, num_ceps=12, cep_lifter=22):
+#     """Computes the MEL cepstral coefficients.
 
-    It provides the information about the power in each frequency band.
+#     It provides the information about the power in each frequency band.
 
-    Implementation details and description on:
-    https://www.kaggle.com/ilyamich/mfcc-implementation-and-tutorial
-    https://haythamfayek.com/2016/04/21/speech-processing-for-machine-learning.html#fnref:1
-    """
-    filter_banks = filterbank(signal, fs, pre_emphasis, nfft, nfilt)
+#     Implementation details and description on:
+#     https://www.kaggle.com/ilyamich/mfcc-implementation-and-tutorial
+#     https://haythamfayek.com/2016/04/21/speech-processing-for-machine-learning.html#fnref:1
+#     """
+#     filter_banks = filterbank(signal, fs, pre_emphasis, nfft, nfilt)
 
-    mel_coeff = scipy.fft.dct(filter_banks, type=2, axis=0, norm='ortho')[1:(num_ceps + 1)]  # Keep 2-13
+#     mel_coeff = scipy.fft.dct(filter_banks, type=2, axis=0, norm='ortho')[1:(num_ceps + 1)]  # Keep 2-13
 
-    mel_coeff -= (np.mean(mel_coeff, axis=0) + 1e-8)
+#     mel_coeff -= (np.mean(mel_coeff, axis=0) + 1e-8)
 
-    # liftering
-    ncoeff = len(mel_coeff)
-    n = np.arange(ncoeff)
-    lift = 1 + (cep_lifter / 2) * np.sin(np.pi * n / cep_lifter)  # cep_lifter = 22 from python_speech_features library
+#     # liftering
+#     ncoeff = len(mel_coeff)
+#     n = np.arange(ncoeff)
+#     lift = 1 + (cep_lifter / 2) * np.sin(np.pi * n / cep_lifter)  # cep_lifter = 22 from python_speech_features library
 
-    mel_coeff *= lift
+#     mel_coeff *= lift
 
-    return tuple(mel_coeff)
+#     return tuple(mel_coeff)
