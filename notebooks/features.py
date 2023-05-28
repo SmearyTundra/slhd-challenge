@@ -187,29 +187,29 @@ class Features():
     #    else:
     #        return tuple(y[:d])
     
-    def ecdf_percentile(self, signal, percentile=[0.2, 0.8]):
-        """Computes the percentile values of the ECDF."""
-        signal = np.array(signal)
-        if isinstance(percentile, str):
-            percentile = eval(percentile)
-        if isinstance(percentile, (float, int)):
-            percentile = [percentile]
-
-        # calculate ecdf
-        x, y = np.sort(signal), np.arange(1, len(signal)+1)/len(signal)
-
-        if len(percentile) > 1:
-            # check if signal is constant
-            if np.sum(np.diff(signal)) == 0:
-                return tuple(np.repeat(signal[0], len(percentile)))
-            else:
-                return tuple([x[y <= p].max() for p in percentile])
-        else:
-            # check if signal is constant
-            if np.sum(np.diff(signal)) == 0:
-                return signal[0]
-            else:
-                return x[y <= percentile].max()
+    #def ecdf_percentile(self, signal, percentile=[0.2, 0.8]):
+    #    """Computes the percentile values of the ECDF."""
+    #    signal = np.array(signal)
+    #    if isinstance(percentile, str):
+    #        percentile = eval(percentile)
+    #    if isinstance(percentile, (float, int)):
+    #        percentile = [percentile]
+#
+    #    # calculate ecdf
+    #    x, y = np.sort(signal), np.arange(1, len(signal)+1)/len(signal)
+#
+    #    if len(percentile) > 1:
+    #        # check if signal is constant
+    #        if np.sum(np.diff(signal)) == 0:
+    #            return tuple(np.repeat(signal[0], len(percentile)))
+    #        else:
+    #            return tuple([x[y <= p].max() for p in percentile])
+    #    else:
+    #        # check if signal is constant
+    #        if np.sum(np.diff(signal)) == 0:
+    #            return signal[0]
+    #        else:
+    #            return x[y <= percentile].max()
 
     
     # def spectral_distance(signal, fs):
@@ -331,14 +331,14 @@ class Features():
 
     #    return ratio
     
-    def fft_mean_coeff(self, signal, fs=200, nfreq=256):
-        """Computes the mean value of each spectrogram frequency.
-        nfreq can not be higher than half signal length plus one.
-        When it does, it is automatically set to half signal length plus one.
-        """
-        if nfreq > len(signal) // 2 + 1:
-            nfreq = len(signal) // 2 + 1
-
-        fmag_mean = scipy.signal.spectrogram(signal, fs, nperseg=nfreq * 2 - 2)[2].mean(1)
-
-        return tuple(fmag_mean)
+    #def fft_mean_coeff(self, signal, fs=200, nfreq=256):
+    #    """Computes the mean value of each spectrogram frequency.
+    #    nfreq can not be higher than half signal length plus one.
+    #    When it does, it is automatically set to half signal length plus one.
+    #    """
+    #    if nfreq > len(signal) // 2 + 1:
+    #        nfreq = len(signal) // 2 + 1
+#
+    #    fmag_mean = scipy.signal.spectrogram(signal, fs, nperseg=nfreq * 2 - 2)[2].mean(1)
+#
+    #    return tuple(fmag_mean)
