@@ -91,7 +91,6 @@ class Features():
     
     def auc(self, signal, fs = 200):
         """Computes the area under the curve of the signal computed with trapezoid rule."""
-        print(signal)
         t = np.arange(0, len(signal))/fs
         return np.sum(0.5 * np.diff(t) * np.abs(np.array(signal[:-1]) + np.array(signal[1:])))
 
