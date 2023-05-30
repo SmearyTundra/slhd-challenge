@@ -116,25 +116,26 @@ class Features():
         """Computes variance of the signal."""
         return np.var(signal)
 
-    # TODO: reinserire
-    # def fundamental_frequency(signal, fs):
-    #     """Computes fundamental frequency of the signal.
-    #     The fundamental frequency integer multiple best explain
-    #     the content of the signal spectrum.
-    #     """
-    #     signal = signal - np.mean(signal)
-    #     f, fmag = calc_fft(signal, fs)
+    def fundamental_frequency(self, signal, fs = 200):
+        """Computes fundamental frequency of the signal.
+        The fundamental frequency integer multiple best explain
+        the content of the signal spectrum.
+        """
+        signal = signal - np.mean(signal)
+        fmag = np.abs(np.fft.fft(signal))
+        f = np.linspace(0, fs // 2, len(signal) // 2)
+        f, fmag = f[:len(signal) // 2].copy(), fmag[:len(signal) // 2].copy()
 
-    #     # Finding big peaks, not considering noise peaks with low amplitude
+        # Finding big peaks, not considering noise peaks with low amplitude
 
-    #     bp = scipy.signal.find_peaks(fmag, height=max(fmag) * 0.3)[0]
+        bp = scipy.signal.find_peaks(fmag, height=max(fmag) * 0.3)[0]
 
-    #     # # Condition for offset removal, since the offset generates a peak at frequency zero
-    #     bp = bp[bp != 0]
-    #     if not list(bp):
-    #         f0 = 0
-    #     else:
-    #         # f0 is the minimum big peak frequency
-    #         f0 = f[min(bp)]
+        # # Condition for offset removal, since the offset generates a peak at frequency zero
+        bp = bp[bp != 0]
+        if not list(bp):
+            f0 = 0
+        else:
+            # f0 is the minimum big peak frequency
+            f0 = f[min(bp)]
 
-    #     return f0
+        return f0
