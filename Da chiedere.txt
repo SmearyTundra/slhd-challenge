@@ -1,4 +1,0 @@
-Dobbiamo seguire la stessa pipeline dell'ultimo lab?
-Come movimento teniamo anche quelli che si muovono sulle scale?
-La questione degli outlier, se va bene il metodo che utilizziamo
-Controllano anche il codice o solo report e presentazione?
