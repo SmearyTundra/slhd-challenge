@@ -1,0 +1,2 @@
+version,device name,recording time,platform,appVersion,device id,sensors,sampleRateMs
+3,ONEPLUS A6013,2023-06-05_23-29-39,android,1.15.2,129b880d-d0d3-49c3-b908-78ed916e1fa6,Accelerometer|Annotation|TotalAcceleration|AccelerometerUncalibrated,10||10|10
