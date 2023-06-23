@@ -5,26 +5,8 @@ Statistical Learning for Healthcare Data Project: Challenge 1
   <p align="center">
     Development of a wearable fall detection system utilizing machine learning algorithms. Analysis of accelerometer time series using advanced algorithms to identify patterns and distinguish between everyday activities and fall
 events.
-    <br />
-    <a href="https://github.com/SmearyTundra/SLHD-challenge"><strong>Explore the docs »</strong></a>
-</div>
-
-
-
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-    </li>
-    <li><a href="#authors">Authors</a></li>
-  </ol>
-</details>
-
+    
+---
 
 
 <!-- ABOUT THE PROJECT -->
@@ -32,17 +14,16 @@ events.
 
 We present the development of a classification system able to distinguish several distinct activities of daily living based on accelerometer measurements. The dataset comprises 468 events, each representing an activity performed by a single participant. Each event includes the activity label and three time series measurements corresponding to the accelerometer readings on the X, Y, and Z axis.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- Structure  -->
+## Structure
+
+- Report: final project report
+- Code: data pre-processing and development of the classification model for 3 and 10 classes
 
 
-<!-- GETTING STARTED -->
-## Getting Started
-
-- Report: final report
-- Code: data processing and classification model development for 3 or 10 classes
-- Plots: plots used in the report
-
-### Prerequisites
+<!-- Prerequisites  -->
+## Prerequisites
 
 Install packages in requirements.txt
   ```
