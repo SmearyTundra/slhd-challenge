@@ -1,6 +1,8 @@
-Statistical Learning for Healthcare Data Project: Challenge 1
+Development of a wearable fall detection system using Machine Learning
 ==============================
-<h3 align="center">UniZgFall dataset analysis</h3>
+<h3 align="center">This project was developed for the course of "Statistical Learning for Healthcare Data" held at Politecnico di Milano in the academic year 2022-2023.
+
+</h3>
 
   <p align="center">
     Development of a wearable fall detection system utilizing machine learning algorithms. Analysis of accelerometer time series using advanced algorithms to identify patterns and distinguish between everyday activities and fall
@@ -18,8 +20,9 @@ We present the development of a classification system able to distinguish severa
 <!-- Structure  -->
 ## Structure
 
-- Report: final project report
-- Code: data pre-processing and development of the classification model for 3 and 10 classes
+- [`SLHD-report`](./report/SLHD-report.pdf) Project final report
+- [`SLHD-slides.pdf`](./report/SLHD-slides.pdf) Project final presentation 
+- [`3-classes.ipynb`](./code/challenge-1-3_classes.ipynb) Data pre-processing and development of the classification models for 3 classes
 
 
 <!-- Prerequisites  -->
@@ -31,6 +34,7 @@ Install packages in requirements.txt
   numpy
   seaborn
   sklearn
+  matplotlib
   ```
 
 
